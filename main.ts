@@ -4,6 +4,7 @@ namespace SpriteKind {
     export const god_food = SpriteKind.create()
     export const food_supply = SpriteKind.create()
     export const gun_supply = SpriteKind.create()
+    export const meator = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.boss, function (sprite, otherSprite) {
     otherSprite.destroy()
@@ -18,6 +19,12 @@ controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, 0)
+    projectile3 = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2001, 0)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.meator, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    scene.cameraShake(4, 1000)
+    info.changeLifeBy(-5)
 })
 sprites.onOverlap(SpriteKind.Food, SpriteKind.Player, function (sprite, otherSprite) {
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
@@ -26,6 +33,11 @@ sprites.onOverlap(SpriteKind.Food, SpriteKind.Player, function (sprite, otherSpr
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
     info.setLife(10)
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.meator, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.fire, 2000)
+    scene.cameraShake(8, 2000)
+    info.changeScoreBy(5)
 })
 sprites.onOverlap(SpriteKind.god_food, SpriteKind.Player, function (sprite, otherSprite) {
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
@@ -39,7 +51,7 @@ sprites.onOverlap(SpriteKind.god_food, SpriteKind.Player, function (sprite, othe
     info.setLife(100)
 })
 info.onLifeZero(function () {
-    game.over(true, effects.confetti)
+    game.over(false)
 })
 sprites.onOverlap(SpriteKind.gun_supply, SpriteKind.Player, function (sprite, otherSprite) {
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
@@ -92,12 +104,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     info.changeLifeBy(-1)
 })
 let power_guns: Sprite = null
+let meator: Sprite = null
 let bogey: Sprite = null
 let op_food2: Sprite = null
 let boss2: Sprite = null
 let supply_crate: Sprite = null
 let dimond: Sprite = null
 let more_guns: Sprite = null
+let projectile3: Sprite = null
 let projectile: Sprite = null
 let space_plane: Sprite = null
 effects.starField.startScreenEffect()
@@ -107,6 +121,13 @@ if (game.ask("is 100x100 1000?")) {
 } else {
     game.splash("bad")
     info.setLife(4)
+}
+if (game.ask("is 10x10 = 100?")) {
+    info.setLife(1)
+    game.splash("bad")
+} else {
+    info.setLife(5)
+    game.splash("good")
 }
 game.splash("high score 1k")
 space_plane = sprites.create(assets.image`galgaPlane1`, SpriteKind.Player)
@@ -163,6 +184,12 @@ game.onUpdateInterval(500, function () {
     bogey.setVelocity(-100, 0)
     bogey.setPosition(160, randint(5, 115))
     bogey.setFlag(SpriteFlag.AutoDestroy, true)
+})
+game.onUpdateInterval(10000, function () {
+    meator = sprites.create(assets.image`meator`, SpriteKind.meator)
+    meator.setVelocity(-100, 0)
+    meator.setPosition(160, randint(5, 115))
+    meator.setFlag(SpriteFlag.AutoDestroy, true)
 })
 game.onUpdateInterval(10000, function () {
     power_guns = sprites.create(assets.image`power guns`, SpriteKind.Food)
