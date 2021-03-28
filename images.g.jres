@@ -154,6 +154,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "meator"
     },
+    "image32": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAEREAAAAAAA0MyREAAAAMDMzMyIEAAA0MzMzI0IAADQzIyIzQgBANDMiIiIiBEBFIiJEJCIEQEUiQkREIgRARCJCREQiBABEEUJEREIAAEQRRUQkQgAAQFRVREIEAAAARERERAAAAAAAREQAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "player 2"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",

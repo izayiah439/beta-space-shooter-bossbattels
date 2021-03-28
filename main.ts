@@ -5,6 +5,8 @@ namespace SpriteKind {
     export const food_supply = SpriteKind.create()
     export const gun_supply = SpriteKind.create()
     export const meator = SpriteKind.create()
+    export const player_2 = SpriteKind.create()
+    export const ball = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.boss, function (sprite, otherSprite) {
     otherSprite.destroy()
@@ -13,6 +15,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.boss, function (sprite, otherSpr
 })
 sprites.onOverlap(SpriteKind.food_supply, SpriteKind.Player, function (sprite, otherSprite) {
     info.setLife(30)
+})
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, player_2, 2000, 0)
+    projectile3 = sprites.createProjectileFromSprite(assets.image`galgaDart1`, player_2, 2001, 0)
 })
 controller.anyButton.onEvent(ControllerButtonEvent.Pressed, function () {
 	
@@ -78,6 +84,9 @@ sprites.onOverlap(SpriteKind.gun_supply, SpriteKind.Player, function (sprite, ot
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
 })
+sprites.onOverlap(SpriteKind.ball, SpriteKind.Player, function (sprite, otherSprite) {
+    player_2 = sprites.create(assets.image`bluePlane`, SpriteKind.player_2)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.boss, function (sprite, otherSprite) {
     otherSprite.destroy(effects.fire, 500)
     scene.cameraShake(8, 1000)
@@ -112,7 +121,9 @@ let supply_crate: Sprite = null
 let dimond: Sprite = null
 let more_guns: Sprite = null
 let projectile3: Sprite = null
+let player_2: Sprite = null
 let projectile: Sprite = null
+let ball_2: Sprite = null
 let space_plane: Sprite = null
 effects.starField.startScreenEffect()
 if (game.ask("is 100x100 1000?")) {
@@ -120,10 +131,10 @@ if (game.ask("is 100x100 1000?")) {
     info.setLife(6)
 } else {
     game.splash("bad")
-    info.setLife(4)
+    info.setLife(0)
 }
 if (game.ask("is 10x10 = 100?")) {
-    info.setLife(1)
+    info.setLife(0)
     game.splash("bad")
 } else {
     info.setLife(5)
@@ -133,11 +144,18 @@ game.splash("high score 1k")
 space_plane = sprites.create(assets.image`galgaPlane1`, SpriteKind.Player)
 controller.moveSprite(space_plane, 200, 200)
 space_plane.setStayInScreen(true)
+controller.moveSprite(ball_2, 200, 200)
 game.onUpdateInterval(138000, function () {
     more_guns = sprites.create(assets.image`gun supply`, SpriteKind.gun_supply)
     more_guns.setVelocity(-100, 0)
     more_guns.setPosition(160, randint(5, 115))
     more_guns.setFlag(SpriteFlag.AutoDestroy, true)
+})
+game.onUpdateInterval(138000, function () {
+    ball_2 = sprites.create(assets.image`player 2`, SpriteKind.ball)
+    ball_2.setVelocity(-100, 0)
+    ball_2.setPosition(160, randint(5, 115))
+    ball_2.setFlag(SpriteFlag.AutoDestroy, true)
 })
 game.onUpdateInterval(180000, function () {
     dimond = sprites.create(assets.image`dimond`, SpriteKind.god_food)
