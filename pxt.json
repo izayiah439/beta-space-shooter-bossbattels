@@ -1,9 +1,10 @@
 {
-    "name": "beta space shooter (bossbattels)",
+    "name": "beta space shooter bossbattels)V more.1.0.2 stuff",
     "version": "0.1.0",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "animation": "*"
     },
     "files": [
         "main.blocks",

@@ -7,6 +7,7 @@ namespace SpriteKind {
     export const meator = SpriteKind.create()
     export const player_2 = SpriteKind.create()
     export const ball = SpriteKind.create()
+    export const secret_code = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.boss, function (sprite, otherSprite) {
     otherSprite.destroy()
@@ -56,7 +57,15 @@ sprites.onOverlap(SpriteKind.god_food, SpriteKind.Player, function (sprite, othe
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
     info.setLife(100)
 })
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+	
+})
+controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
+    game.splash("go insane ")
+    game.showLongText("go to bottom left for a code only at 2 hurts", DialogLayout.Bottom)
+})
 info.onLifeZero(function () {
+    space_plane.say("better luck next time")
     game.over(false)
 })
 sprites.onOverlap(SpriteKind.gun_supply, SpriteKind.Player, function (sprite, otherSprite) {
@@ -102,6 +111,12 @@ sprites.onOverlap(SpriteKind.op_food, SpriteKind.Player, function (sprite, other
     projectile = sprites.createProjectileFromSprite(assets.image`galgaDart1`, space_plane, 2000, randint(5, 115))
     info.setLife(20)
 })
+sprites.onOverlap(SpriteKind.secret_code, SpriteKind.Player, function (sprite, otherSprite) {
+    game.splash("COOLcode", game.askForString("enter code"))
+    controller.player2.moveSprite(player_2, 100, 100)
+    shh.destroy(effects.trail, 1000)
+    info.setLife(8)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy(effects.fire, 500)
     scene.cameraShake(4, 500)
@@ -120,9 +135,10 @@ let boss2: Sprite = null
 let supply_crate: Sprite = null
 let dimond: Sprite = null
 let more_guns: Sprite = null
+let shh: Sprite = null
 let projectile3: Sprite = null
-let player_2: Sprite = null
 let projectile: Sprite = null
+let player_2: Sprite = null
 let ball_2: Sprite = null
 let space_plane: Sprite = null
 effects.starField.startScreenEffect()
@@ -134,17 +150,18 @@ if (game.ask("is 100x100 1000?")) {
     info.setLife(0)
 }
 if (game.ask("is 10x10 = 100?")) {
-    info.setLife(0)
-    game.splash("bad")
-} else {
     info.setLife(5)
     game.splash("good")
+} else {
+    info.setLife(0)
+    game.splash("bad")
 }
 game.splash("high score 1k")
 space_plane = sprites.create(assets.image`galgaPlane1`, SpriteKind.Player)
 controller.moveSprite(space_plane, 200, 200)
 space_plane.setStayInScreen(true)
 controller.moveSprite(ball_2, 200, 200)
+player_2.setStayInScreen(true)
 game.onUpdateInterval(138000, function () {
     more_guns = sprites.create(assets.image`gun supply`, SpriteKind.gun_supply)
     more_guns.setVelocity(-100, 0)
@@ -175,7 +192,6 @@ game.onUpdateInterval(60000, function () {
     boss2.setPosition(160, randint(5, 115))
     boss2.setFlag(SpriteFlag.AutoDestroy, true)
     boss2.setBounceOnWall(true)
-    music.playMelody("D E C D E C D E ", 112)
 })
 game.onUpdateInterval(60000, function () {
     boss2 = sprites.create(assets.image`Fast n Blurrious`, SpriteKind.boss)
@@ -202,6 +218,12 @@ game.onUpdateInterval(500, function () {
     bogey.setVelocity(-100, 0)
     bogey.setPosition(160, randint(5, 115))
     bogey.setFlag(SpriteFlag.AutoDestroy, true)
+})
+game.onUpdateInterval(10000, function () {
+    shh = sprites.create(assets.image`shhh`, SpriteKind.secret_code)
+    shh.setVelocity(13, 96)
+    shh.setPosition(13, 96)
+    shh.setFlag(SpriteFlag.AutoDestroy, false)
 })
 game.onUpdateInterval(10000, function () {
     meator = sprites.create(assets.image`meator`, SpriteKind.meator)
