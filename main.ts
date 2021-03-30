@@ -137,8 +137,8 @@ let dimond: Sprite = null
 let more_guns: Sprite = null
 let shh: Sprite = null
 let projectile3: Sprite = null
-let projectile: Sprite = null
 let player_2: Sprite = null
+let projectile: Sprite = null
 let ball_2: Sprite = null
 let space_plane: Sprite = null
 effects.starField.startScreenEffect()
@@ -161,7 +161,6 @@ space_plane = sprites.create(assets.image`galgaPlane1`, SpriteKind.Player)
 controller.moveSprite(space_plane, 200, 200)
 space_plane.setStayInScreen(true)
 controller.moveSprite(ball_2, 200, 200)
-player_2.setStayInScreen(true)
 game.onUpdateInterval(138000, function () {
     more_guns = sprites.create(assets.image`gun supply`, SpriteKind.gun_supply)
     more_guns.setVelocity(-100, 0)
